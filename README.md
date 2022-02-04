@@ -4,7 +4,7 @@ This project requires you to build a multi-section landing page, with a dynamica
 
 # Demo-Preview
 
-![Demo Preview](/screenshot.png)
+![Demo Preview](/screenshoot.png)
 
 # Table of contents
 
