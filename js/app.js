@@ -52,7 +52,7 @@ window.addEventListener("scroll", function(){
 window.addEventListener("scroll",function(){
 
     // using the settimeout to make the navbar disappear after 3sec
-    var timer = setTimeout(function(){
+    let timer = setTimeout(function(){
 
         // after scrolling down a little bit our party begin
         if(window.scrollY > 180){
@@ -109,7 +109,7 @@ function buildNav(){
 function addClassActive(){
 
     // looping on all sections already exists in the page
-    for(var index = 1; index<= allSections.length ;index++){ 
+    for(let index = 1; index<= allSections.length ;index++){ 
 
         // checking that not last section to avoid error due to  comparing to next section which isn't exist
         if(index !== allSections.length){
