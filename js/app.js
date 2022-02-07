@@ -144,6 +144,12 @@ function addClassActive(){
         // check if the element which clicked is the <a> link or not
         if(e.target.classList.contains("menu__link")){
 
+            // removing active class from all links
+            document.querySelectorAll("ul li a").forEach((link)=>link.classList.remove("active"))
+
+            //adding class active to the clicked link
+            e.target.classList.add("active")
+
             // select sections which have the same data-nav as text content of the button to make it appear in view port using method of scrollintoview
             document.querySelector(`section[data-nav="${e.target.textContent}"]`).scrollIntoView({
 
