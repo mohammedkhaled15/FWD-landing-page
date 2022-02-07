@@ -22,9 +22,12 @@
  * Define Global Variables
  * 
 */
-let sec1 = document.getElementById("section1")
-let sec2 = document.getElementById("section2")
-let sec3 = document.getElementById("section3")
+let allSections = document.querySelectorAll("section")
+
+// making all variables automatically
+for(i=1 ; i<= allSections.length; i++){
+    window["sec" + i] = document.getElementById(`section${i}`)
+}
 let navBar = document.querySelector("ul#navbar__list")
 let scrollUp = document.querySelector(".scroll-to-top")
 let navigator = document.querySelector(".navbar__menu")
@@ -47,21 +50,26 @@ window.addEventListener("scroll", function(){
 // Disappearing of navbar when stop scrolling
 
 window.addEventListener("scroll",function(){
-    console.log(`window: ${window.scrollY}`)
+
+    // using the settimeout to make the navbar disappear after 3sec
     var timer = setTimeout(function(){
+
+        // after scrolling down a little bit our party begin
         if(window.scrollY > 180){
             navigator.style.display = "none"
-            console.log("start")
         }
     },3000)
+
+    // after intiating scrolling the navbar getting alive again
     navigator.style.display = "block"
 })
 
 // if you moved mouse up on the navbar it will appear wehrever you are
 window.addEventListener("mousemove",function(e){
+
+    // pointer position to vertical direction
     if(e.clientY < 70){
         navigator.style.display = "block"
-    
     }
 })
 
@@ -73,11 +81,22 @@ window.addEventListener("mousemove",function(e){
 
 // build the nav
 function buildNav(){
-    for(i=1; i < document.getElementsByTagName("section").length + 1; i++){
+    // looping on all sections to made abutton for each one
+    for(i=1; i <= allSections.length; i++){
+
+        //creating list item first
         let listItem = document.createElement("li")
+
+        // creating anchor tag
         let navLink =document.createElement("a")
+
+        //addding class (menu__link) to our nav
         navLink.classList.add("menu__link")
+
+        //adding text to each button as name of section
         navLink.innerHTML = `Section ${i}`
+
+        // appending each element to its parent in DOM
         listItem.appendChild(navLink)
         navBar.appendChild(listItem)
     }
@@ -86,30 +105,48 @@ function buildNav(){
 
 
 // Add class 'active' to section when near top of viewport
+
 function addClassActive(){
-    // checking the value of window.scrollY and cmpare it to the value of each section offsetTOp 
-    if(window.scrollY >= sec1.offsetTop - 150 && window.scrollY <= sec2.offsetTop -149){
-        // removing the class first from all sections
-        document.querySelectorAll("section").forEach((sec)=>sec.classList.remove("your-active-class"))
-        //adding the class to the section
-        sec1.classList.add("your-active-class")
-    }else if(window.scrollY >= sec2.offsetTop-150 && window.scrollY <= sec3.offsetTop -149){
-        document.querySelectorAll("section").forEach((sec)=>sec.classList.remove("your-active-class"))
-        sec2.classList.add("your-active-class")
-    }else if(window.scrollY >= sec3.offsetTop-150){
-        document.querySelectorAll("section").forEach((sec)=>sec.classList.remove("your-active-class"))
-        sec3.classList.add("your-active-class")
+
+    // looping on all sections already exists in the page
+    for(var index = 1; index<= allSections.length ;index++){ 
+
+        // checking that not last section to avoid error due to  comparing to next section which isn't exist
+        if(index !== allSections.length){
+
+            // checking the value of the window scrollY according to sections offsetstop
+            if(window.scrollY >= window[`sec${index}`].offsetTop - 150 && window.scrollY <= window[`sec${index+1}`].offsetTop -149){
+
+                // removing the class first from all sections
+                allSections.forEach((sec)=>sec.classList.remove("your-active-class"))
+
+                //adding the class to the section
+                window[`sec${index}`].classList.add("your-active-class")
+            }
+        }else{
+            // here we compared to the whole body height cause that is the last section. also to avoid error due to comparing to undefined 
+            if(window.scrollY >= window[`sec${index}`].offsetTop - 150 && window.scrollY <= document.body.scrollHeight -149){
+
+                // removing the class first from all sections
+                allSections.forEach((sec)=>sec.classList.remove("your-active-class"))
+
+                //adding the class to the section
+                window[`sec${index}`].classList.add("your-active-class")
+            }
+        }
     }
 }
 
 // Scroll to anchor ID using scrollTO event
 
     function scrollTOSection(e){
-        // console.log(e.target)
+
         // check if the element which clicked is the <a> link or not
         if(e.target.classList.contains("menu__link")){
-            // select sections which have the same data-nav as text content of the button to make it appear in view port
+
+            // select sections which have the same data-nav as text content of the button to make it appear in view port using method of scrollintoview
             document.querySelector(`section[data-nav="${e.target.textContent}"]`).scrollIntoView({
+
             //using options object of scrollIntoView function to make the scroll more smoothy and center the div in view port
             behavior:"smooth",
             block:"center"
